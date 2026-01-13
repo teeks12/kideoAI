@@ -3,7 +3,7 @@
 FROM node:20-alpine AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
+RUN corepack enable && apk add --no-cache curl
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -46,6 +46,16 @@ ENV DATABASE_URL=$DATABASE_URL
 ENV NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 
 RUN pnpm build --filter=web
+
+# Migration stage - includes Prisma CLI for running migrations
+FROM base AS migrator
+WORKDIR /app
+
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/packages/db/node_modules ./packages/db/node_modules
+COPY packages/db/package.json ./packages/db/
+COPY packages/db/prisma ./packages/db/prisma
+COPY pnpm-workspace.yaml package.json ./
 
 # Production image
 FROM base AS runner

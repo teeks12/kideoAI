@@ -35,7 +35,8 @@ fi
 # Run migrations if requested
 if [ "$MIGRATE" = true ]; then
     echo "==> Running database migrations..."
-    docker compose run --rm web npx prisma migrate deploy
+    docker build --target migrator -t kideo-migrator -f apps/web/Dockerfile .
+    docker run --rm --env-file .env kideo-migrator sh -c "cd packages/db && npx prisma migrate deploy"
 fi
 
 # Restart services
