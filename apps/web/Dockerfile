@@ -45,7 +45,7 @@ ARG NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 ENV DATABASE_URL=$DATABASE_URL
 ENV NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 
-RUN pnpm build --filter=web
+RUN pnpm build --filter=@kideo/web
 
 # Migration stage - includes Prisma CLI for running migrations
 FROM base AS migrator
