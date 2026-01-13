@@ -1,0 +1,20 @@
+# Caddyfile for Kideo.ai
+# This provides automatic HTTPS via Let's Encrypt
+
+kideo.ai {
+    reverse_proxy web:3000
+    encode gzip
+
+    header {
+        # Security headers
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy strict-origin-when-cross-origin
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    }
+}
+
+www.kideo.ai {
+    redir https://kideo.ai{uri} permanent
+}
