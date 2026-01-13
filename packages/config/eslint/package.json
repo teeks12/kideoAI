@@ -1,0 +1,14 @@
+{
+  "name": "@kideo/eslint-config",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.js",
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.19.1",
+    "@typescript-eslint/parser": "^8.19.1",
+    "eslint-config-next": "^15.1.5",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-react": "^7.37.3",
+    "eslint-plugin-react-hooks": "^5.1.0"
+  }
+}

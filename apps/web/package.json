@@ -1,0 +1,40 @@
+{
+  "name": "@kideo/web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@clerk/nextjs": "^6.12.0",
+    "@kideo/api": "workspace:*",
+    "@kideo/db": "workspace:*",
+    "@kideo/domain": "workspace:*",
+    "@kideo/ui": "workspace:*",
+    "@kideo/validators": "workspace:*",
+    "@tanstack/react-query": "^5.64.2",
+    "@trpc/client": "^11.8.1",
+    "@trpc/react-query": "^11.8.1",
+    "@trpc/server": "^11.8.1",
+    "next": "^15.1.5",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "superjson": "^2.2.2",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@kideo/eslint-config": "workspace:*",
+    "@kideo/tailwind-config": "workspace:*",
+    "@types/node": "^22.10.6",
+    "@types/react": "^19.0.6",
+    "@types/react-dom": "^19.0.3",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.1",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.2"
+  }
+}

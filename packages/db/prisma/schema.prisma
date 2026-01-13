@@ -1,0 +1,410 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum UserRole {
+  PARENT
+  KID
+}
+
+enum TaskCategory {
+  EXPECTED // Unpaid - family responsibility
+  PAID     // Earns points
+}
+
+enum TaskType {
+  INDIVIDUAL
+  FAMILY
+  TIMED
+  BEAT_THE_TIMER
+}
+
+enum TaskSchedule {
+  DAILY
+  WEEKLY
+  WEEKDAYS
+  WEEKENDS
+  ADHOC
+}
+
+enum CompletionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum RedemptionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  FULFILLED
+}
+
+enum TimerStatus {
+  RUNNING
+  PAUSED
+  COMPLETED
+  CANCELLED
+}
+
+// ============================================
+// USERS & FAMILIES
+// ============================================
+
+model User {
+  id        String   @id @default(cuid())
+  clerkId   String   @unique
+  email     String   @unique
+  firstName String?
+  lastName  String?
+  avatarUrl String?
+  role      UserRole @default(PARENT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  familyMembers       FamilyMember[]
+  createdTasks        Task[]           @relation("TaskCreator")
+  approvals           TaskCompletion[] @relation("CompletionApprover")
+  redemptionApprovals Redemption[]     @relation("RedemptionApprover")
+
+  @@index([clerkId])
+}
+
+model Family {
+  id                String   @id @default(cuid())
+  clerkOrgId        String   @unique
+  name              String
+  timezone          String   @default("America/New_York")
+  streakMultipliers Json     @default("{\"tier1\": 1.0, \"tier2\": 1.2, \"tier3\": 1.5}")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  members FamilyMember[]
+  kids    Kid[]
+  tasks   Task[]
+  rewards Reward[]
+
+  @@index([clerkOrgId])
+}
+
+model FamilyMember {
+  id       String   @id @default(cuid())
+  userId   String
+  familyId String
+  role     UserRole @default(PARENT)
+  isOwner  Boolean  @default(false)
+  joinedAt DateTime @default(now())
+
+  // Relations
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  family Family @relation(fields: [familyId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, familyId])
+  @@index([familyId])
+}
+
+model Kid {
+  id            String    @id @default(cuid())
+  familyId      String
+  name          String
+  dateOfBirth   DateTime?
+  avatarUrl     String?
+  interests     String[]  @default([])
+  pointsBalance Int       @default(0)
+  pin           String?   // Optional 4-digit PIN for kid login
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  family          Family           @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  taskAssignments TaskAssignment[]
+  completions     TaskCompletion[]
+  timerSessions   TimerSession[]
+  redemptions     Redemption[]
+  badges          KidBadge[]
+  streak          Streak?
+  goals           Goal[]
+
+  @@index([familyId])
+}
+
+// ============================================
+// TASKS
+// ============================================
+
+model Task {
+  id           String   @id @default(cuid())
+  familyId     String
+  createdById  String
+  title        String
+  description  String?
+  instructions String?  // Step-by-step for kids
+  iconEmoji    String?  @default("✅")
+
+  category TaskCategory @default(EXPECTED)
+  type     TaskType     @default(INDIVIDUAL)
+  schedule TaskSchedule @default(ADHOC)
+
+  points      Int @default(0) // Only for PAID tasks
+  bonusPoints Int @default(0) // Beat-the-timer bonus
+
+  timerDurationMinutes Int?    // For TIMED and BEAT_THE_TIMER
+  requiresApproval     Boolean @default(true)
+  countsTowardStreak   Boolean @default(true)
+
+  isActive       Boolean @default(true)
+  isTemplate     Boolean @default(false)
+  templateAgeMin Int?    // For templates
+  templateAgeMax Int?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  family      Family           @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  createdBy   User             @relation("TaskCreator", fields: [createdById], references: [id])
+  assignments TaskAssignment[]
+  completions TaskCompletion[]
+
+  @@index([familyId])
+  @@index([familyId, isActive])
+  @@index([isTemplate, templateAgeMin, templateAgeMax])
+}
+
+model TaskAssignment {
+  id         String   @id @default(cuid())
+  taskId     String
+  kidId      String
+  assignedAt DateTime @default(now())
+
+  // Relations
+  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  kid  Kid  @relation(fields: [kidId], references: [id], onDelete: Cascade)
+
+  @@unique([taskId, kidId])
+  @@index([kidId])
+}
+
+model TaskCompletion {
+  id          String           @id @default(cuid())
+  taskId      String
+  kidId       String
+  status      CompletionStatus @default(PENDING)
+  completedAt DateTime         @default(now())
+
+  // Approval details
+  approvedById    String?
+  approvedAt      DateTime?
+  rejectionReason String?
+
+  // Points awarded (after multiplier)
+  pointsAwarded     Int   @default(0)
+  multiplierApplied Float @default(1.0)
+
+  // Timer reference if applicable
+  timerSessionId String? @unique
+
+  // Photo proof (future)
+  proofImageUrl String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  task         Task          @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  kid          Kid           @relation(fields: [kidId], references: [id], onDelete: Cascade)
+  approvedBy   User?         @relation("CompletionApprover", fields: [approvedById], references: [id])
+  timerSession TimerSession? @relation(fields: [timerSessionId], references: [id])
+
+  @@index([kidId, status])
+  @@index([taskId])
+  @@index([status, createdAt])
+}
+
+model TimerSession {
+  id            String      @id @default(cuid())
+  taskId        String
+  kidId         String
+  status        TimerStatus @default(RUNNING)
+  targetMinutes Int
+  startedAt     DateTime    @default(now())
+  pausedAt      DateTime?
+  completedAt   DateTime?
+
+  // Accumulated time (handles pauses)
+  elapsedSeconds Int @default(0)
+
+  // Beat-the-timer result
+  beatTarget Boolean?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  kid        Kid             @relation(fields: [kidId], references: [id], onDelete: Cascade)
+  completion TaskCompletion?
+
+  @@index([kidId, status])
+}
+
+// ============================================
+// REWARDS & REDEMPTIONS
+// ============================================
+
+model Reward {
+  id           String  @id @default(cuid())
+  familyId     String
+  title        String
+  description  String?
+  iconEmoji    String? @default("🎁")
+  pointsCost   Int
+  isActive     Boolean @default(true)
+  limitPerWeek Int?    // Optional weekly limit
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  family      Family       @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  redemptions Redemption[]
+
+  @@index([familyId, isActive])
+}
+
+model Redemption {
+  id              String           @id @default(cuid())
+  rewardId        String
+  kidId           String
+  status          RedemptionStatus @default(PENDING)
+  pointsCost      Int              // Snapshot at time of request
+  requestedAt     DateTime         @default(now())
+  approvedById    String?
+  approvedAt      DateTime?
+  fulfilledAt     DateTime?
+  rejectionReason String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  reward     Reward @relation(fields: [rewardId], references: [id], onDelete: Cascade)
+  kid        Kid    @relation(fields: [kidId], references: [id], onDelete: Cascade)
+  approvedBy User?  @relation("RedemptionApprover", fields: [approvedById], references: [id])
+
+  @@index([kidId, status])
+  @@index([status, requestedAt])
+}
+
+// ============================================
+// GAMIFICATION
+// ============================================
+
+model Badge {
+  id          String  @id @default(cuid())
+  slug        String  @unique // e.g., "first-task", "streak-7"
+  name        String
+  description String
+  iconEmoji   String
+  iconUrl     String? // Custom badge image
+
+  // Criteria (stored as JSON for flexibility)
+  criteria Json // e.g., {"type": "streak", "value": 7}
+
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  // Relations
+  kidBadges KidBadge[]
+}
+
+model KidBadge {
+  id       String   @id @default(cuid())
+  kidId    String
+  badgeId  String
+  earnedAt DateTime @default(now())
+
+  // Relations
+  kid   Kid   @relation(fields: [kidId], references: [id], onDelete: Cascade)
+  badge Badge @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+
+  @@unique([kidId, badgeId])
+  @@index([kidId])
+}
+
+model Streak {
+  id             String    @id @default(cuid())
+  kidId          String    @unique
+  currentCount   Int       @default(0)
+  longestCount   Int       @default(0)
+  lastActiveDate DateTime?
+
+  // Multiplier tier (1, 2, or 3)
+  currentTier Int @default(1)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  kid Kid @relation(fields: [kidId], references: [id], onDelete: Cascade)
+}
+
+// ============================================
+// GOALS
+// ============================================
+
+model Goal {
+  id          String    @id @default(cuid())
+  kidId       String
+  title       String
+  description String?
+  targetDate  DateTime?
+
+  // Progress (0-100)
+  progress    Int       @default(0)
+  isCompleted Boolean   @default(false)
+  completedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  kid Kid @relation(fields: [kidId], references: [id], onDelete: Cascade)
+
+  @@index([kidId])
+}
+
+// ============================================
+// TASK TEMPLATES (Seeded Data)
+// ============================================
+
+model TaskTemplate {
+  id           String       @id @default(cuid())
+  title        String
+  description  String?
+  instructions String?
+  iconEmoji    String       @default("✅")
+  category     TaskCategory @default(EXPECTED)
+  type         TaskType     @default(INDIVIDUAL)
+
+  suggestedPoints      Int  @default(0)
+  timerDurationMinutes Int?
+
+  ageMin Int // Minimum recommended age
+  ageMax Int // Maximum recommended age
+
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([ageMin, ageMax])
+}

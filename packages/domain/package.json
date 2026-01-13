@@ -1,0 +1,31 @@
+{
+  "name": "@kideo/domain",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./points": {
+      "types": "./src/points/index.ts",
+      "default": "./src/points/index.ts"
+    },
+    "./streak": {
+      "types": "./src/streak/index.ts",
+      "default": "./src/streak/index.ts"
+    },
+    "./badge": {
+      "types": "./src/badge/index.ts",
+      "default": "./src/badge/index.ts"
+    }
+  },
+  "scripts": {
+    "type-check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "@kideo/tailwind-config",
+  "version": "0.1.0",
+  "private": true,
+  "main": "preset.js",
+  "dependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}
