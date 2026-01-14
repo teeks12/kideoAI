@@ -144,17 +144,16 @@ function RewardsContent({ kids }: { kids: Kid[] }) {
           <div className="grid gap-4">
             {rewards.map((reward) => {
               const canAfford = selectedKid && selectedKid.pointsBalance >= reward.pointsCost;
-              const outOfStock = reward.quantity !== null && reward.quantity <= 0;
 
               return (
-                <Card key={reward.id} className={outOfStock ? "opacity-50" : ""}>
+                <Card key={reward.id}>
                   <CardContent className="p-4">
                     <div className="flex items-start gap-4">
                       <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-purple-100 text-3xl">
                         {reward.iconEmoji || "🎁"}
                       </div>
                       <div className="flex-1">
-                        <h4 className="font-semibold text-gray-900">{reward.name}</h4>
+                        <h4 className="font-semibold text-gray-900">{reward.title}</h4>
                         {reward.description && (
                           <p className="text-sm text-gray-500">{reward.description}</p>
                         )}
@@ -163,16 +162,11 @@ function RewardsContent({ kids }: { kids: Kid[] }) {
                             <Coins className="mr-1 h-3 w-3" />
                             {reward.pointsCost} pts
                           </Badge>
-                          {reward.quantity !== null && (
-                            <Badge variant="outline">
-                              {reward.quantity} left
-                            </Badge>
-                          )}
                         </div>
                       </div>
                       <Button
                         size="sm"
-                        disabled={!canAfford || outOfStock || requestRedemption.isPending}
+                        disabled={!canAfford || requestRedemption.isPending}
                         onClick={() =>
                           requestRedemption.mutate({
                             rewardId: reward.id,
@@ -184,7 +178,7 @@ function RewardsContent({ kids }: { kids: Kid[] }) {
                           requestRedemption.variables?.rewardId === reward.id
                         }
                       >
-                        {outOfStock ? "Out of Stock" : canAfford ? "Redeem" : "Need More"}
+                        {canAfford ? "Redeem" : "Need More"}
                       </Button>
                     </div>
                   </CardContent>
