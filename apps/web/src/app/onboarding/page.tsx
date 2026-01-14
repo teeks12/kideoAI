@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { Card, CardContent, CardHeader, CardTitle, Button, Spinner } from "@kideo/ui";
-import { api } from "~/trpc/react";
+import { trpc } from "@/lib/trpc/client";
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -13,12 +13,12 @@ export default function OnboardingPage() {
   const [error, setError] = useState("");
 
   // Check if user already has a family
-  const { data: existingFamily, isLoading: checkingFamily } = api.family.get.useQuery(undefined, {
+  const { data: existingFamily, isLoading: checkingFamily } = trpc.family.get.useQuery(undefined, {
     retry: false,
   });
 
   // Create family mutation
-  const createFamily = api.family.create.useMutation({
+  const createFamily = trpc.family.create.useMutation({
     onSuccess: () => {
       router.push("/parent/dashboard");
     },
