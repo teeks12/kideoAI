@@ -80,7 +80,7 @@ export default function TaskDetailPage({
                 </Badge>
                 <Badge variant="outline">{task.type}</Badge>
                 <Badge variant="outline">{task.schedule}</Badge>
-                {!task.isActive && <Badge variant="destructive">Inactive</Badge>}
+                {!task.isActive && <Badge variant="error">Inactive</Badge>}
               </div>
             </div>
           </div>
