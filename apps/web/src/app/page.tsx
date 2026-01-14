@@ -22,11 +22,11 @@ export default async function HomePage() {
 
     // If logged in with a family, redirect to dashboard
     if (hasFamily) {
-      redirect("/parent/dashboard");
+      return redirect("/parent/dashboard");
     }
 
     // If logged in but no family, redirect to onboarding
-    redirect("/onboarding");
+    return redirect("/onboarding");
   }
 
   // Landing page for non-authenticated users

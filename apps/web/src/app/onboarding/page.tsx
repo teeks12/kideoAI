@@ -20,7 +20,8 @@ export default function OnboardingPage() {
   // Create family mutation
   const createFamily = trpc.family.create.useMutation({
     onSuccess: () => {
-      router.push("/parent/dashboard");
+      // Use hard redirect to ensure navigation happens
+      window.location.href = "/parent/dashboard";
     },
     onError: (err) => {
       setError(err.message || "Failed to create family");
@@ -29,7 +30,7 @@ export default function OnboardingPage() {
 
   // Redirect if user already has a family
   if (existingFamily) {
-    router.push("/parent/dashboard");
+    window.location.href = "/parent/dashboard";
     return null;
   }
 
