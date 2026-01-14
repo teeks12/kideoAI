@@ -12,12 +12,12 @@ const nextConfig: NextConfig = {
   ],
   experimental: {
     optimizePackageImports: ["@kideo/ui", "lucide-react"],
-    outputFileTracingIncludes: {
-      "/api/**/*": [
-        "../../node_modules/.pnpm/node_modules/.prisma/client/**/*",
-        "../../node_modules/.pnpm/node_modules/@prisma/client/**/*",
-      ],
-    },
+  },
+  outputFileTracingIncludes: {
+    "/api/**/*": [
+      "../../node_modules/.pnpm/node_modules/.prisma/client/**/*",
+      "../../node_modules/.pnpm/node_modules/@prisma/client/**/*",
+    ],
   },
 };
 
