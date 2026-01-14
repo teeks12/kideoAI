@@ -72,7 +72,6 @@ export default function KidDetailPage({
             <Avatar src={kid.avatarUrl} fallback={kid.name} size="xl" />
             <div>
               <h2 className="text-2xl font-bold text-gray-900">{kid.name}</h2>
-              <p className="text-gray-500">Age {kid.age}</p>
               {kid.pin && (
                 <Badge variant="outline" className="mt-2">
                   PIN: {kid.pin}
