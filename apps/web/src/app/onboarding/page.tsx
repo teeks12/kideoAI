@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { Card, CardContent, CardHeader, CardTitle, Button, Spinner } from "@kideo/ui";
@@ -11,27 +11,33 @@ export default function OnboardingPage() {
   const { user, isLoaded } = useUser();
   const [familyName, setFamilyName] = useState("");
   const [error, setError] = useState("");
+  const [isRedirecting, setIsRedirecting] = useState(false);
+  const hasRedirected = useRef(false);
   const utils = trpc.useUtils();
 
   // Check if user already has a family
-  const { data: existingFamily, isLoading: checkingFamily } = trpc.family.get.useQuery(undefined, {
+  const { data: existingFamily, isLoading: checkingFamily, error: queryError } = trpc.family.get.useQuery(undefined, {
     retry: false,
+    enabled: isLoaded,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   });
 
-  // Redirect if user already has a family
+  // Redirect if user already has a family (only once)
   useEffect(() => {
-    if (existingFamily) {
-      window.location.href = "/parent/dashboard";
+    if (existingFamily && !hasRedirected.current) {
+      hasRedirected.current = true;
+      setIsRedirecting(true);
+      router.push("/parent/dashboard");
     }
-  }, [existingFamily]);
+  }, [existingFamily, router]);
 
   // Create family mutation
   const createFamily = trpc.family.create.useMutation({
-    onSuccess: async () => {
-      // Invalidate the family query to refetch
-      await utils.family.get.invalidate();
-      // Use hard redirect to ensure navigation happens
-      window.location.href = "/parent/dashboard";
+    onSuccess: () => {
+      setIsRedirecting(true);
+      router.push("/parent/dashboard");
     },
     onError: (err) => {
       setError(err.message || "Failed to create family");
