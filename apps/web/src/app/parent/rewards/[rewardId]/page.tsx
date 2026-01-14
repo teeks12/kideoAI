@@ -27,18 +27,14 @@ export default function EditRewardPage({
   const [description, setDescription] = useState("");
   const [pointsCost, setPointsCost] = useState("50");
   const [iconEmoji, setIconEmoji] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [requiresApproval, setRequiresApproval] = useState(true);
   const [isActive, setIsActive] = useState(true);
 
   useEffect(() => {
     if (reward) {
-      setName(reward.name);
+      setName(reward.title);
       setDescription(reward.description || "");
       setPointsCost(reward.pointsCost.toString());
       setIconEmoji(reward.iconEmoji || "");
-      setQuantity(reward.quantity?.toString() || "");
-      setRequiresApproval(reward.requiresApproval);
       setIsActive(reward.isActive);
     }
   }, [reward]);
@@ -59,12 +55,10 @@ export default function EditRewardPage({
     e.preventDefault();
     updateReward.mutate({
       id: rewardId,
-      name: name.trim(),
+      title: name.trim(),
       description: description.trim() || null,
       pointsCost: parseInt(pointsCost, 10),
       iconEmoji: iconEmoji || null,
-      quantity: quantity ? parseInt(quantity, 10) : null,
-      requiresApproval,
       isActive,
     });
   };
@@ -146,34 +140,18 @@ export default function EditRewardPage({
               />
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">
-                  Points Cost
-                </label>
-                <input
-                  type="number"
-                  value={pointsCost}
-                  onChange={(e) => setPointsCost(e.target.value)}
-                  min="1"
-                  className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-primary-500 focus:outline-none"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">
-                  Quantity
-                </label>
-                <input
-                  type="number"
-                  value={quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
-                  min="0"
-                  placeholder="Unlimited"
-                  className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-primary-500 focus:outline-none"
-                />
-              </div>
+            <div>
+              <label className="mb-1 block text-sm font-medium text-gray-700">
+                Points Cost
+              </label>
+              <input
+                type="number"
+                value={pointsCost}
+                onChange={(e) => setPointsCost(e.target.value)}
+                min="1"
+                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-primary-500 focus:outline-none"
+                required
+              />
             </div>
           </CardContent>
         </Card>
@@ -182,19 +160,7 @@ export default function EditRewardPage({
           <CardHeader>
             <CardTitle>Options</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <label className="flex items-center gap-3">
-              <input
-                type="checkbox"
-                checked={requiresApproval}
-                onChange={(e) => setRequiresApproval(e.target.checked)}
-                className="h-5 w-5 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
-              />
-              <span className="text-sm">
-                <span className="font-medium">Requires parent approval</span>
-              </span>
-            </label>
-
+          <CardContent>
             <label className="flex items-center gap-3">
               <input
                 type="checkbox"

@@ -48,7 +48,7 @@ export default function RewardsPage() {
                       {reward.iconEmoji || "🎁"}
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900">{reward.name}</h3>
+                      <h3 className="font-semibold text-gray-900">{reward.title}</h3>
                       {reward.description && (
                         <p className="text-sm text-gray-500 line-clamp-2">
                           {reward.description}
@@ -59,11 +59,6 @@ export default function RewardsPage() {
                           <Coins className="mr-1 h-3 w-3" />
                           {reward.pointsCost} pts
                         </Badge>
-                        {reward.quantity !== null && (
-                          <Badge variant="outline">
-                            {reward.quantity} left
-                          </Badge>
-                        )}
                         {!reward.isActive && (
                           <Badge variant="destructive">Inactive</Badge>
                         )}
