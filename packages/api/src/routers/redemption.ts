@@ -45,14 +45,6 @@ export const redemptionRouter = router({
         });
       }
 
-      // Check if reward has quantity limit
-      if (reward.quantity !== null && reward.quantity <= 0) {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Reward is out of stock",
-        });
-      }
-
       // Check if kid has enough points
       if (kid.pointsBalance < reward.pointsCost) {
         throw new TRPCError({
