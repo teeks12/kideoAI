@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { Card, CardContent, CardHeader, CardTitle, Button, Spinner } from "@kideo/ui";
@@ -18,6 +18,13 @@ export default function OnboardingPage() {
     retry: false,
   });
 
+  // Redirect if user already has a family
+  useEffect(() => {
+    if (existingFamily) {
+      window.location.href = "/parent/dashboard";
+    }
+  }, [existingFamily]);
+
   // Create family mutation
   const createFamily = trpc.family.create.useMutation({
     onSuccess: async () => {
@@ -30,12 +37,6 @@ export default function OnboardingPage() {
       setError(err.message || "Failed to create family");
     },
   });
-
-  // Redirect if user already has a family
-  if (existingFamily) {
-    window.location.href = "/parent/dashboard";
-    return null;
-  }
 
   if (!isLoaded || checkingFamily) {
     return (
