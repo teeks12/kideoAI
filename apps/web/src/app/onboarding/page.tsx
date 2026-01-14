@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUser, useOrganizationList, useClerk } from "@clerk/nextjs";
 import { Card, CardContent, CardHeader, CardTitle, Button, Spinner } from "@kideo/ui";
@@ -8,10 +8,17 @@ import { Card, CardContent, CardHeader, CardTitle, Button, Spinner } from "@kide
 export default function OnboardingPage() {
   const router = useRouter();
   const { user } = useUser();
-  const { createOrganization, isLoaded, setActive } = useOrganizationList();
+  const { createOrganization, isLoaded, setActive, userMemberships } = useOrganizationList();
   const [familyName, setFamilyName] = useState("");
   const [isCreating, setIsCreating] = useState(false);
   const [error, setError] = useState("");
+
+  // If user already has an organization, redirect to dashboard
+  useEffect(() => {
+    if (isLoaded && userMemberships?.data && userMemberships.data.length > 0) {
+      router.push("/parent/dashboard");
+    }
+  }, [isLoaded, userMemberships, router]);
 
   if (!isLoaded) {
     return (

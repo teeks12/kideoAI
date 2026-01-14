@@ -14,7 +14,6 @@ export default function SignUpPage() {
       signInUrl="/auth/sign-in"
       forceRedirectUrl="/onboarding"
       afterSignUpUrl="/onboarding"
-      skipInvitationScreen={true}
     />
   );
 }
