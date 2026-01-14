@@ -2,17 +2,30 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@kideo/ui";
+import { prisma } from "@kideo/db";
 
 export default async function HomePage() {
-  const { userId, orgId } = await auth();
+  const { userId } = await auth();
 
-  // If logged in with an org, redirect to dashboard
-  if (userId && orgId) {
-    redirect("/dashboard");
-  }
+  // Check if user has a family
+  if (userId) {
+    const user = await prisma.user.findUnique({
+      where: { clerkId: userId },
+      include: {
+        familyMembers: {
+          take: 1,
+        },
+      },
+    });
 
-  // If logged in but no org, redirect to onboarding
-  if (userId && !orgId) {
+    const hasFamily = !!user?.familyMembers.length;
+
+    // If logged in with a family, redirect to dashboard
+    if (hasFamily) {
+      redirect("/parent/dashboard");
+    }
+
+    // If logged in but no family, redirect to onboarding
     redirect("/onboarding");
   }
 
@@ -30,10 +43,10 @@ export default async function HomePage() {
           </p>
 
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-            <Link href="/sign-up">
+            <Link href="/auth/sign-up">
               <Button size="xl">Get Started Free</Button>
             </Link>
-            <Link href="/sign-in">
+            <Link href="/auth/sign-in">
               <Button size="xl" variant="outline">
                 Sign In
               </Button>
