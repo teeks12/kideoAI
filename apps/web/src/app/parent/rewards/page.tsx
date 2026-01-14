@@ -60,7 +60,7 @@ export default function RewardsPage() {
                           {reward.pointsCost} pts
                         </Badge>
                         {!reward.isActive && (
-                          <Badge variant="destructive">Inactive</Badge>
+                          <Badge variant="error">Inactive</Badge>
                         )}
                       </div>
                     </div>
