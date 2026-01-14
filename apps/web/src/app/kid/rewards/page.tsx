@@ -122,7 +122,7 @@ function RewardsContent({ kids }: { kids: Kid[] }) {
                       {redemption.reward.iconEmoji || "🎁"}
                     </div>
                     <div>
-                      <p className="font-medium">{redemption.reward.name}</p>
+                      <p className="font-medium">{redemption.reward.title}</p>
                       <p className="text-sm text-gray-500">{redemption.pointsSpent} pts</p>
                     </div>
                   </div>
