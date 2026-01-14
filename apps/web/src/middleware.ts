@@ -1,4 +1,5 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
 const isPublicRoute = createRouteMatcher([
   "/",
@@ -7,10 +8,32 @@ const isPublicRoute = createRouteMatcher([
   "/api/webhooks(.*)",
 ]);
 
+const isOnboardingRoute = createRouteMatcher(["/onboarding"]);
+
 export default clerkMiddleware(async (auth, req) => {
-  if (!isPublicRoute(req)) {
-    await auth.protect();
+  const { userId, orgId } = await auth();
+
+  // Allow public routes
+  if (isPublicRoute(req)) {
+    return NextResponse.next();
   }
+
+  // Protect all other routes
+  await auth.protect();
+
+  // If user is authenticated but has no organization and not on onboarding page
+  if (userId && !orgId && !isOnboardingRoute(req)) {
+    const onboardingUrl = new URL("/onboarding", req.url);
+    return NextResponse.redirect(onboardingUrl);
+  }
+
+  // If user is on onboarding but already has an organization, redirect to dashboard
+  if (userId && orgId && isOnboardingRoute(req)) {
+    const dashboardUrl = new URL("/parent/dashboard", req.url);
+    return NextResponse.redirect(dashboardUrl);
+  }
+
+  return NextResponse.next();
 });
 
 export const config = {

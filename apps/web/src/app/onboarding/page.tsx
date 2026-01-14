@@ -36,7 +36,7 @@ export default function OnboardingPage() {
       if (org) {
         // Set this org as active and redirect
         await setActive({ organization: org.id });
-        router.push("/dashboard");
+        router.push("/parent/dashboard");
       }
     } catch (err: any) {
       setError(err.message || "Failed to create family");
