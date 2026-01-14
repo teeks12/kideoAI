@@ -1,26 +1,39 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useUser, useOrganizationList, useClerk } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { Card, CardContent, CardHeader, CardTitle, Button, Spinner } from "@kideo/ui";
+import { api } from "~/trpc/react";
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const { user } = useUser();
-  const { createOrganization, isLoaded, setActive, userMemberships } = useOrganizationList();
+  const { user, isLoaded } = useUser();
   const [familyName, setFamilyName] = useState("");
-  const [isCreating, setIsCreating] = useState(false);
   const [error, setError] = useState("");
 
-  // If user already has an organization, redirect to dashboard
-  useEffect(() => {
-    if (isLoaded && userMemberships?.data && userMemberships.data.length > 0) {
-      router.push("/parent/dashboard");
-    }
-  }, [isLoaded, userMemberships, router]);
+  // Check if user already has a family
+  const { data: existingFamily, isLoading: checkingFamily } = api.family.get.useQuery(undefined, {
+    retry: false,
+  });
 
-  if (!isLoaded) {
+  // Create family mutation
+  const createFamily = api.family.create.useMutation({
+    onSuccess: () => {
+      router.push("/parent/dashboard");
+    },
+    onError: (err) => {
+      setError(err.message || "Failed to create family");
+    },
+  });
+
+  // Redirect if user already has a family
+  if (existingFamily) {
+    router.push("/parent/dashboard");
+    return null;
+  }
+
+  if (!isLoaded || checkingFamily) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <Spinner size="lg" />
@@ -35,20 +48,8 @@ export default function OnboardingPage() {
       return;
     }
 
-    setIsCreating(true);
     setError("");
-
-    try {
-      const org = await createOrganization({ name: familyName.trim() });
-      if (org) {
-        // Set this org as active and redirect
-        await setActive({ organization: org.id });
-        router.push("/parent/dashboard");
-      }
-    } catch (err: any) {
-      setError(err.message || "Failed to create family");
-      setIsCreating(false);
-    }
+    createFamily.mutate({ name: familyName.trim() });
   };
 
   return (
@@ -81,7 +82,7 @@ export default function OnboardingPage() {
                   onChange={(e) => setFamilyName(e.target.value)}
                   placeholder="The Smith Family"
                   className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
-                  disabled={isCreating}
+                  disabled={createFamily.isPending}
                 />
               </div>
 
@@ -92,8 +93,8 @@ export default function OnboardingPage() {
               <Button
                 type="submit"
                 className="w-full"
-                disabled={isCreating}
-                isLoading={isCreating}
+                disabled={createFamily.isPending}
+                isLoading={createFamily.isPending}
               >
                 Create Family
               </Button>

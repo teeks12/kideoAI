@@ -5,6 +5,45 @@ import { updateFamilySchema, familySettingsSchema } from "@kideo/validators";
 
 export const familyRouter = router({
   /**
+   * Create a new family
+   */
+  create: protectedProcedure
+    .input(z.object({ name: z.string().min(1).max(100) }))
+    .mutation(async ({ ctx, input }) => {
+      if (!ctx.user) {
+        throw new TRPCError({ code: "UNAUTHORIZED" });
+      }
+
+      // Check if user already has a family
+      const existingMembership = await ctx.prisma.familyMember.findFirst({
+        where: { userId: ctx.user.id },
+      });
+
+      if (existingMembership) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "You already belong to a family",
+        });
+      }
+
+      // Create family with user as owner
+      const family = await ctx.prisma.family.create({
+        data: {
+          name: input.name,
+          members: {
+            create: {
+              userId: ctx.user.id,
+              role: "PARENT",
+              isOwner: true,
+            },
+          },
+        },
+      });
+
+      return family;
+    }),
+
+  /**
    * Get current family
    */
   get: parentFamilyProcedure.query(async ({ ctx }) => {

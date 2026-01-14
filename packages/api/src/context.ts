@@ -55,26 +55,15 @@ export async function createContext(opts: CreateContextOptions): Promise<Context
     }
   }
 
-  // Load or create family if org context is available
-  if (auth?.orgId) {
-    family = await prisma.family.findUnique({
-      where: { clerkOrgId: auth.orgId },
+  // Load family from user's family membership
+  if (user) {
+    const familyMember = await prisma.familyMember.findFirst({
+      where: { userId: user.id },
+      include: { family: true },
     });
 
-    // Auto-create family if doesn't exist
-    if (!family && user) {
-      family = await prisma.family.create({
-        data: {
-          clerkOrgId: auth.orgId,
-          name: "My Family", // Will be updated by webhook
-          members: {
-            create: {
-              userId: user.id,
-              role: "PARENT",
-            },
-          },
-        },
-      });
+    if (familyMember) {
+      family = familyMember.family;
     }
   }
 

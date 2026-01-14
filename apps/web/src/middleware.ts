@@ -1,5 +1,6 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
+import { prisma } from "@kideo/db";
 
 const isPublicRoute = createRouteMatcher([
   "/",
@@ -11,7 +12,7 @@ const isPublicRoute = createRouteMatcher([
 const isOnboardingRoute = createRouteMatcher(["/onboarding"]);
 
 export default clerkMiddleware(async (auth, req) => {
-  const { userId, orgId } = await auth();
+  const { userId } = await auth();
 
   // Allow public routes
   if (isPublicRoute(req)) {
@@ -21,14 +22,29 @@ export default clerkMiddleware(async (auth, req) => {
   // Protect all other routes
   await auth.protect();
 
-  // If user is authenticated but has no organization and not on onboarding page
-  if (userId && !orgId && !isOnboardingRoute(req)) {
+  // Check if user has a family in the database
+  let hasFamily = false;
+  if (userId) {
+    const user = await prisma.user.findUnique({
+      where: { clerkId: userId },
+      include: {
+        familyMembers: {
+          take: 1,
+        },
+      },
+    });
+
+    hasFamily = !!user?.familyMembers.length;
+  }
+
+  // If user is authenticated but has no family and not on onboarding page
+  if (userId && !hasFamily && !isOnboardingRoute(req)) {
     const onboardingUrl = new URL("/onboarding", req.url);
     return NextResponse.redirect(onboardingUrl);
   }
 
-  // If user is on onboarding but already has an organization, redirect to dashboard
-  if (userId && orgId && isOnboardingRoute(req)) {
+  // If user is on onboarding but already has a family, redirect to dashboard
+  if (userId && hasFamily && isOnboardingRoute(req)) {
     const dashboardUrl = new URL("/parent/dashboard", req.url);
     return NextResponse.redirect(dashboardUrl);
   }

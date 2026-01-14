@@ -82,7 +82,6 @@ model User {
 
 model Family {
   id                String   @id @default(cuid())
-  clerkOrgId        String   @unique
   name              String
   timezone          String   @default("America/New_York")
   streakMultipliers Json     @default("{\"tier1\": 1.0, \"tier2\": 1.2, \"tier3\": 1.5}")
@@ -94,8 +93,6 @@ model Family {
   kids    Kid[]
   tasks   Task[]
   rewards Reward[]
-
-  @@index([clerkOrgId])
 }
 
 model FamilyMember {
