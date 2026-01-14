@@ -58,32 +58,14 @@ export const redemptionRouter = router({
         data: {
           kidId: kid.id,
           rewardId: reward.id,
-          pointsSpent: reward.pointsCost,
-          status: reward.requiresApproval ? "PENDING" : "APPROVED",
+          pointsCost: reward.pointsCost,
+          status: "PENDING",
         },
         include: {
           reward: true,
           kid: true,
         },
       });
-
-      // If auto-approved, deduct points and update quantity
-      if (!reward.requiresApproval) {
-        await ctx.prisma.$transaction([
-          ctx.prisma.kid.update({
-            where: { id: kid.id },
-            data: { pointsBalance: { decrement: reward.pointsCost } },
-          }),
-          ...(reward.quantity !== null
-            ? [
-                ctx.prisma.reward.update({
-                  where: { id: reward.id },
-                  data: { quantity: { decrement: 1 } },
-                }),
-              ]
-            : []),
-        ]);
-      }
 
       return redemption;
     }),
