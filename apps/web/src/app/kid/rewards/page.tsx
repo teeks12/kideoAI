@@ -123,7 +123,7 @@ function RewardsContent({ kids }: { kids: Kid[] }) {
                     </div>
                     <div>
                       <p className="font-medium">{redemption.reward.title}</p>
-                      <p className="text-sm text-gray-500">{redemption.pointsSpent} pts</p>
+                      <p className="text-sm text-gray-500">{redemption.pointsCost} pts</p>
                     </div>
                   </div>
                   <Badge variant="warning">
