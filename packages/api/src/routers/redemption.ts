@@ -132,14 +132,14 @@ export const redemptionRouter = router({
       }
 
       // Verify kid still has enough points
-      if (redemption.kid.pointsBalance < redemption.pointsSpent) {
+      if (redemption.kid.pointsBalance < redemption.pointsCost) {
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "Kid no longer has enough points",
         });
       }
 
-      // Update redemption, deduct points, update quantity
+      // Update redemption and deduct points
       await ctx.prisma.$transaction([
         ctx.prisma.redemption.update({
           where: { id: redemption.id },
@@ -151,16 +151,8 @@ export const redemptionRouter = router({
         }),
         ctx.prisma.kid.update({
           where: { id: redemption.kid.id },
-          data: { pointsBalance: { decrement: redemption.pointsSpent } },
+          data: { pointsBalance: { decrement: redemption.pointsCost } },
         }),
-        ...(redemption.reward.quantity !== null
-          ? [
-              ctx.prisma.reward.update({
-                where: { id: redemption.reward.id },
-                data: { quantity: { decrement: 1 } },
-              }),
-            ]
-          : []),
       ]);
 
       return ctx.prisma.redemption.findUnique({
