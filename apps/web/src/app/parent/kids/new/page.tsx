@@ -25,7 +25,6 @@ const avatarOptions = [
 export default function NewKidPage() {
   const router = useRouter();
   const [name, setName] = useState("");
-  const [age, setAge] = useState("");
   const [selectedAvatar, setSelectedAvatar] = useState(avatarOptions[0]);
   const [pin, setPin] = useState("");
 
@@ -39,7 +38,6 @@ export default function NewKidPage() {
     e.preventDefault();
     createKid.mutate({
       name: name.trim(),
-      age: parseInt(age, 10),
       avatarUrl: selectedAvatar,
       pin: pin || undefined,
     });
@@ -72,22 +70,6 @@ export default function NewKidPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter kid's name"
-                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
-                Age
-              </label>
-              <input
-                type="number"
-                value={age}
-                onChange={(e) => setAge(e.target.value)}
-                placeholder="Enter age"
-                min="1"
-                max="18"
                 className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
                 required
               />
