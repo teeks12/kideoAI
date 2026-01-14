@@ -13,14 +13,15 @@ export const rewardRouter = router({
         description: z.string().max(500).optional(),
         pointsCost: z.number().int().min(1).max(10000),
         iconEmoji: z.string().max(10).optional(),
-        quantity: z.number().int().min(1).optional(),
-        requiresApproval: z.boolean().default(true),
       })
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.reward.create({
         data: {
-          ...input,
+          title: input.name,
+          description: input.description,
+          pointsCost: input.pointsCost,
+          iconEmoji: input.iconEmoji,
           familyId: ctx.family!.id,
         },
       });
@@ -79,13 +80,11 @@ export const rewardRouter = router({
         description: z.string().max(500).optional().nullable(),
         pointsCost: z.number().int().min(1).max(10000).optional(),
         iconEmoji: z.string().max(10).optional().nullable(),
-        quantity: z.number().int().min(1).optional().nullable(),
         isActive: z.boolean().optional(),
-        requiresApproval: z.boolean().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const { id, ...data } = input;
+      const { id, name, ...rest } = input;
 
       const reward = await ctx.prisma.reward.findFirst({
         where: {
@@ -103,7 +102,10 @@ export const rewardRouter = router({
 
       return ctx.prisma.reward.update({
         where: { id },
-        data,
+        data: {
+          ...(name ? { title: name } : {}),
+          ...rest,
+        },
       });
     }),
 
