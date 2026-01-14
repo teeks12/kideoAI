@@ -11,6 +11,7 @@ export default function OnboardingPage() {
   const { user, isLoaded } = useUser();
   const [familyName, setFamilyName] = useState("");
   const [error, setError] = useState("");
+  const utils = trpc.useUtils();
 
   // Check if user already has a family
   const { data: existingFamily, isLoading: checkingFamily } = trpc.family.get.useQuery(undefined, {
@@ -19,7 +20,9 @@ export default function OnboardingPage() {
 
   // Create family mutation
   const createFamily = trpc.family.create.useMutation({
-    onSuccess: () => {
+    onSuccess: async () => {
+      // Invalidate the family query to refetch
+      await utils.family.get.invalidate();
       // Use hard redirect to ensure navigation happens
       window.location.href = "/parent/dashboard";
     },
