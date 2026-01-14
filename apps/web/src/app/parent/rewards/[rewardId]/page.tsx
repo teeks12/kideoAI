@@ -55,7 +55,7 @@ export default function EditRewardPage({
     e.preventDefault();
     updateReward.mutate({
       id: rewardId,
-      title: name.trim(),
+      name: name.trim(),
       description: description.trim() || null,
       pointsCost: parseInt(pointsCost, 10),
       iconEmoji: iconEmoji || null,
