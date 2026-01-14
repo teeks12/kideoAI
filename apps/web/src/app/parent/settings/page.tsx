@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useUser, useOrganization } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import {
   Card,
   CardContent,
@@ -15,7 +15,6 @@ import { trpc } from "@/lib/trpc/client";
 
 export default function SettingsPage() {
   const { user } = useUser();
-  const { organization } = useOrganization();
   const { data: family, isLoading } = trpc.family.get.useQuery();
   const { data: settings } = trpc.family.getSettings.useQuery();
 
@@ -91,7 +90,7 @@ export default function SettingsPage() {
           <div>
             <label className="text-sm text-gray-500">Family Name</label>
             <p className="font-semibold text-gray-900">
-              {organization?.name || family?.name || "My Family"}
+              {family?.name || "My Family"}
             </p>
           </div>
           <div>

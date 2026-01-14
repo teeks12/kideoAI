@@ -3,7 +3,7 @@ import { appRouter, createContext } from "@kideo/api";
 import { auth } from "@clerk/nextjs/server";
 
 const handler = async (req: Request) => {
-  const { userId, orgId, orgRole } = await auth();
+  const { userId } = await auth();
 
   return fetchRequestHandler({
     endpoint: "/api/trpc",
@@ -14,8 +14,6 @@ const handler = async (req: Request) => {
         auth: userId
           ? {
               userId,
-              orgId,
-              orgRole,
             }
           : null,
       }),

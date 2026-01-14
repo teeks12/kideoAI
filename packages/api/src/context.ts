@@ -6,8 +6,6 @@ import type { User, Family } from "@kideo/db";
  */
 export interface AuthContext {
   userId: string;
-  orgId?: string | null;
-  orgRole?: string | null;
 }
 
 /**

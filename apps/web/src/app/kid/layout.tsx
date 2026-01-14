@@ -1,19 +1,30 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { KidNav } from "@/components/common/kid-nav";
+import { prisma } from "@kideo/db";
 
 export default async function KidLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { userId, orgId } = await auth();
+  const { userId } = await auth();
 
   if (!userId) {
-    redirect("/sign-in");
+    redirect("/auth/sign-in");
   }
 
-  if (!orgId) {
+  // Check if user has a family
+  const user = await prisma.user.findUnique({
+    where: { clerkId: userId },
+    include: {
+      familyMembers: {
+        take: 1,
+      },
+    },
+  });
+
+  if (!user?.familyMembers.length) {
     redirect("/onboarding");
   }
 
