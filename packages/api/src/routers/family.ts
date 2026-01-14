@@ -44,10 +44,10 @@ export const familyRouter = router({
     }),
 
   /**
-   * Get current family
+   * Get current family (returns null if no family)
    */
-  get: parentFamilyProcedure.query(async ({ ctx }) => {
-    return ctx.family;
+  get: protectedProcedure.query(async ({ ctx }) => {
+    return ctx.family || null;
   }),
 
   /**

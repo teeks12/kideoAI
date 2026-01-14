@@ -102,17 +102,10 @@ export const parentProcedure = protectedProcedure.use(enforceParent);
 const enforceFamilyMember = middleware(async ({ ctx, next }) => {
   const authCtx = ctx as AuthenticatedContext;
 
-  if (!authCtx.auth?.orgId) {
-    throw new TRPCError({
-      code: "FORBIDDEN",
-      message: "No active family selected",
-    });
-  }
-
   if (!ctx.family) {
     throw new TRPCError({
-      code: "NOT_FOUND",
-      message: "Family not found",
+      code: "FORBIDDEN",
+      message: "No active family found. Please create a family first.",
     });
   }
 
