@@ -35,14 +35,12 @@ export default function EditKidPage({
   const { data: kid, isLoading } = trpc.kid.get.useQuery({ id: kidId });
 
   const [name, setName] = useState("");
-  const [age, setAge] = useState("");
   const [selectedAvatar, setSelectedAvatar] = useState("");
   const [pin, setPin] = useState("");
 
   useEffect(() => {
     if (kid) {
       setName(kid.name);
-      setAge(kid.age?.toString() || "");
       setSelectedAvatar(kid.avatarUrl || avatarOptions[0]);
       setPin(kid.pin || "");
     }
@@ -59,7 +57,6 @@ export default function EditKidPage({
     updateKid.mutate({
       id: kidId,
       name: name.trim(),
-      age: age ? parseInt(age, 10) : undefined,
       avatarUrl: selectedAvatar,
       pin: pin || null,
     });
@@ -112,20 +109,6 @@ export default function EditKidPage({
                 onChange={(e) => setName(e.target.value)}
                 className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-primary-500 focus:outline-none"
                 required
-              />
-            </div>
-
-            <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
-                Age
-              </label>
-              <input
-                type="number"
-                value={age}
-                onChange={(e) => setAge(e.target.value)}
-                min="1"
-                max="18"
-                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-primary-500 focus:outline-none"
               />
             </div>
 
