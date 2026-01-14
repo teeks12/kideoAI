@@ -84,5 +84,6 @@ EXPOSE 3000
 
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
+ENV PRISMA_QUERY_ENGINE_LIBRARY=/app/node_modules/.pnpm/node_modules/.prisma/client/libquery_engine-linux-musl-openssl-3.0.x.so.node
 
 CMD ["node", "apps/web/server.js"]
