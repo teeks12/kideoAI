@@ -36,8 +36,6 @@ export default function NewRewardPage() {
       description: description.trim() || undefined,
       pointsCost: parseInt(pointsCost, 10),
       iconEmoji: iconEmoji || undefined,
-      quantity: quantity ? parseInt(quantity, 10) : undefined,
-      requiresApproval,
     });
   };
 
