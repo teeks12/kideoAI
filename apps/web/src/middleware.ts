@@ -9,18 +9,12 @@ const isPublicRoute = createRouteMatcher([
 ]);
 
 const isOnboardingRoute = createRouteMatcher(["/onboarding"]);
-const isClerkTaskRoute = createRouteMatcher(["/auth/sign-up/tasks(.*)"]);
 
 export default clerkMiddleware(async (auth, req) => {
   const { userId, orgId } = await auth();
 
   // Allow public routes
   if (isPublicRoute(req)) {
-    return NextResponse.next();
-  }
-
-  // Allow Clerk task routes (organization chooser, etc.)
-  if (isClerkTaskRoute(req)) {
     return NextResponse.next();
   }
 
