@@ -37,7 +37,13 @@ export default function SettingsPage() {
   const updateSettings = trpc.family.updateSettings.useMutation();
 
   const handleSaveMultipliers = () => {
-    updateSettings.mutate({ streakMultipliers });
+    updateSettings.mutate({
+      streakMultipliers: {
+        tier1: streakMultipliers.tier1Multiplier,
+        tier2: streakMultipliers.tier2Multiplier,
+        tier3: streakMultipliers.tier3Multiplier,
+      },
+    });
   };
 
   if (isLoading) {
