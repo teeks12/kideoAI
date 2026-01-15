@@ -6,6 +6,7 @@ import { completionRouter } from "./routers/completion";
 import { templateRouter } from "./routers/template";
 import { rewardRouter } from "./routers/reward";
 import { redemptionRouter } from "./routers/redemption";
+import { waitlistRouter } from "./routers/waitlist";
 
 /**
  * Root tRPC router
@@ -19,6 +20,7 @@ export const appRouter = router({
   template: templateRouter,
   reward: rewardRouter,
   redemption: redemptionRouter,
+  waitlist: waitlistRouter,
 });
 
 /**

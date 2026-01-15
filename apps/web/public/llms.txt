@@ -1,0 +1,78 @@
+# Kideo - Kids Chore & Responsibility App
+
+> Kideo is a family-focused web application that helps kids learn responsibility through gamified chores, rewards, streaks, and achievements.
+
+## What is Kideo?
+
+Kideo transforms daily chores into fun adventures for kids. Parents create tasks, kids complete them to earn points and build streaks, and everyone celebrates wins together. It's designed to reduce nagging and build independence in children ages 2-18+.
+
+## Key Features
+
+### Task Management
+- **Expected Tasks**: Responsibilities done because you're part of the family (no points)
+- **Paid Tasks**: Chores that earn points redeemable for rewards
+- Age-appropriate task templates for toddlers (2-3), young kids (4-6), older kids (7-10), and teens (11+)
+- Daily, weekly, or ad-hoc scheduling
+
+### Gamification
+- **Streaks**: Daily streak tracking encourages consistency
+- **Multipliers**: 1.2x at 3 days, 1.5x at 7+ days
+- **Badges**: Achievement system for milestones (First Task, 7-Day Streak, Timer Master, etc.)
+- **Points**: Currency earned from paid tasks, spent on rewards
+
+### Timers
+- Minimum time requirements for tasks like reading or cleaning
+- Beat-the-timer challenges for bonus points
+- Pause and resume functionality
+
+### Rewards System
+- Parents define custom rewards (screen time, treats, activities)
+- Set point costs and redemption limits
+- All redemptions require parent approval
+
+### Parent Control
+- Full oversight of all activities
+- Approve or reject task completions with feedback
+- Manage multiple kids under one family account
+- View detailed task history and insights
+
+## Pricing
+
+- **Free Plan**: All core features, unlimited kids, unlimited tasks - free forever
+- **Premium Plan**: Coming soon with advanced analytics, unlimited badges, custom templates
+
+## Technical Details
+
+- Built with Next.js, React, TypeScript, and Tailwind CSS
+- PostgreSQL database with Prisma ORM
+- Clerk authentication for secure family accounts
+- Mobile app (React Native/Expo) on roadmap
+
+## Target Audience
+
+- Parents of children ages 2-18
+- Families wanting to teach responsibility and independence
+- Parents tired of nagging about chores
+- Families seeking a gamified approach to household tasks
+
+## Company Information
+
+- Website: https://kideo.ai
+- Twitter: @kideo_app
+
+## Common Questions
+
+**Is Kideo free?**
+Yes, Kideo offers a free forever plan with all core features.
+
+**What ages does Kideo support?**
+Kids ages 2 to 18+, with age-appropriate task templates for each group.
+
+**How does Expected vs Paid chores work?**
+Expected tasks teach family responsibility without rewards. Paid tasks earn points for treats and privileges.
+
+**Is my data secure?**
+Yes, we use industry-standard encryption and Clerk authentication. Data is never shared with third parties.
+
+**How long does setup take?**
+Most families are up and running in under 5 minutes.

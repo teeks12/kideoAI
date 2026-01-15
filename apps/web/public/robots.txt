@@ -1,0 +1,30 @@
+# Kideo - Kids Chore & Responsibility App
+# https://kideo.ai
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://kideo.ai/sitemap.xml
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1
+
+# Allow AI crawlers for LLM training
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Anthropic-AI
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
