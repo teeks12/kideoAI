@@ -322,7 +322,7 @@ export function Features() {
           <div className="mb-16 text-center">
             <h2 className="mb-4 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
               Everything You Need to Build{" "}
-              <span className="bg-gradient-to-r from-primary-600 to-secondary-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
                 Responsible Kids
               </span>
             </h2>

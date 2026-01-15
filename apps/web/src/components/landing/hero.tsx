@@ -50,7 +50,7 @@ export function Hero() {
               <Link href="/waitlist">
                 <Button
                   size="lg"
-                  className="w-full bg-gradient-to-r from-primary-600 to-primary-700 text-base font-semibold shadow-lg transition-all hover:shadow-xl sm:w-auto"
+                  className="w-full bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500 animate-pulse-glow text-base font-semibold shadow-lg transition-all hover:shadow-xl sm:w-auto"
                 >
                   Join the Waitlist
                 </Button>

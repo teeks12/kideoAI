@@ -74,11 +74,20 @@ const config: Config = {
     				to: {
     					height: '0'
     				}
+    			},
+    			'pulse-glow': {
+    				'0%, 100%': {
+    					boxShadow: '0 0 20px rgba(239, 68, 68, 0.4), 0 0 40px rgba(234, 179, 8, 0.3), 0 0 60px rgba(34, 197, 94, 0.2)'
+    				},
+    				'50%': {
+    					boxShadow: '0 0 30px rgba(239, 68, 68, 0.6), 0 0 60px rgba(234, 179, 8, 0.5), 0 0 90px rgba(34, 197, 94, 0.4)'
+    				}
     			}
     		},
     		animation: {
     			'accordion-down': 'accordion-down 0.2s ease-out',
-    			'accordion-up': 'accordion-up 0.2s ease-out'
+    			'accordion-up': 'accordion-up 0.2s ease-out',
+    			'pulse-glow': 'pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
     		}
     	}
     }

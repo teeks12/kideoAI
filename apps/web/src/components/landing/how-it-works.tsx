@@ -105,7 +105,7 @@ export function HowItWorks() {
             <Link href="/waitlist">
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-primary-600 to-primary-700 px-8 text-lg font-semibold"
+                className="bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500 animate-pulse-glow px-8 text-lg font-semibold"
               >
                 Join the Waitlist
               </Button>

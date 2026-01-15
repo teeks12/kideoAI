@@ -95,7 +95,7 @@ export function FAQ() {
             <Link href="/waitlist">
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-primary-600 to-primary-700 font-semibold"
+                className="bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500 animate-pulse-glow font-semibold"
               >
                 Join the Waitlist
               </Button>

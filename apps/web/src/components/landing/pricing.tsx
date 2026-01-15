@@ -52,7 +52,7 @@ export function Pricing() {
           <div className="mb-16 text-center">
             <h2 className="mb-4 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
               Simple,{" "}
-              <span className="bg-gradient-to-r from-primary-600 to-secondary-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
                 Transparent Pricing
               </span>
             </h2>
@@ -161,7 +161,7 @@ export function Pricing() {
                   <Link href={plan.ctaHref}>
                     <Button
                       size="lg"
-                      className="w-full bg-gradient-to-r from-primary-600 to-primary-700 font-semibold"
+                      className="w-full bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500 animate-pulse-glow font-semibold"
                     >
                       {plan.cta}
                     </Button>
