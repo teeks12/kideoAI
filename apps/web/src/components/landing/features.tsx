@@ -358,8 +358,8 @@ export function Features() {
                   }`}
                 >
                   {/* Content */}
-                  <div className={isReversed ? "lg:order-2" : ""}>
-                    <div className="mb-4 inline-flex">
+                  <div className={`text-center lg:text-left ${isReversed ? "lg:order-2" : ""}`}>
+                    <div className="mb-4 mx-auto lg:mx-0 inline-flex">
                       <div
                         className={`flex h-12 w-12 items-center justify-center rounded-xl ${colorClasses[feature.color]}`}
                       >
@@ -377,7 +377,7 @@ export function Features() {
 
                     <ul className="space-y-3">
                       {feature.highlights.map((highlight, hidx) => (
-                        <li key={hidx} className="flex items-center gap-3">
+                        <li key={hidx} className="flex items-center gap-3 justify-center lg:justify-start">
                           <div
                             className={`flex h-5 w-5 items-center justify-center rounded-full ${colorClasses[feature.color]}`}
                           >

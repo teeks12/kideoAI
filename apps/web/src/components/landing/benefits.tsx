@@ -86,11 +86,11 @@ export function Benefits() {
               return (
                 <div
                   key={idx}
-                  className="group rounded-2xl bg-gray-50 p-6 transition-all hover:bg-white hover:shadow-lg"
+                  className="group rounded-2xl bg-gray-50 p-6 text-center transition-all hover:bg-white hover:shadow-lg md:text-left"
                 >
                   <div className="mb-4">
                     <div
-                      className={`inline-flex h-12 w-12 items-center justify-center rounded-xl ${colorClasses}`}
+                      className={`mx-auto inline-flex h-12 w-12 items-center justify-center rounded-xl md:mx-0 ${colorClasses}`}
                     >
                       <Icon className="h-6 w-6" />
                     </div>
