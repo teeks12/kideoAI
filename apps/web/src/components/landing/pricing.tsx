@@ -161,7 +161,7 @@ export function Pricing() {
                   <Link href={plan.ctaHref}>
                     <Button
                       size="lg"
-                      className="w-full bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500 animate-pulse-glow font-semibold"
+                      className="w-full bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-orange-500 to-purple-500 animate-pulse-glow font-semibold"
                     >
                       {plan.cta}
                     </Button>

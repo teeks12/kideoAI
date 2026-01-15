@@ -50,7 +50,7 @@ export function Hero() {
               <Link href="/waitlist">
                 <Button
                   size="lg"
-                  className="w-full bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500 animate-pulse-glow text-base font-semibold shadow-lg transition-all hover:shadow-xl sm:w-auto"
+                  className="w-full bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-orange-500 to-purple-500 animate-pulse-glow text-base font-semibold shadow-lg transition-all hover:shadow-xl sm:w-auto"
                 >
                   Join the Waitlist
                 </Button>
@@ -69,16 +69,16 @@ export function Hero() {
             {/* Trust indicators */}
             <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-gray-500 lg:justify-start">
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-success-500" />
+                <CheckCircle2 className="h-4 w-4 flex-shrink-0 text-success-500" />
                 <span>Age-appropriate chores</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-success-500" />
-                <span>Encourages responsibility (not entitlement)</span>
+                <CheckCircle2 className="h-4 w-4 flex-shrink-0 text-success-500" />
+                <span>Builds responsibility</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-success-500" />
-                <span>Fewer reminders, less conflict</span>
+                <CheckCircle2 className="h-4 w-4 flex-shrink-0 text-success-500" />
+                <span>Less nagging, less conflict</span>
               </div>
             </div>
           </div>
@@ -165,8 +165,8 @@ export function Hero() {
               </div>
             </div>
 
-            {/* Floating badges */}
-            <div className="absolute -left-4 top-1/4 rounded-xl bg-white p-3 shadow-lg">
+            {/* Floating badges - hidden on mobile to prevent overflow */}
+            <div className="absolute -left-4 top-1/4 hidden rounded-xl bg-white p-3 shadow-lg sm:block">
               <div className="flex items-center gap-2">
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-secondary-100">
                   <Flame className="h-4 w-4 text-secondary-600" />
@@ -178,7 +178,7 @@ export function Hero() {
               </div>
             </div>
 
-            <div className="absolute -right-4 bottom-1/4 rounded-xl bg-white p-3 shadow-lg">
+            <div className="absolute -right-4 bottom-1/4 hidden rounded-xl bg-white p-3 shadow-lg sm:block">
               <div className="flex items-center gap-2">
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary-100">
                   <Trophy className="h-4 w-4 text-primary-600" />

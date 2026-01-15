@@ -41,7 +41,7 @@ export function Navbar() {
             alt="Kideo"
             width={150}
             height={150}
-            className="h-18 w-auto object-contain"
+            className="h-14 w-auto object-contain sm:h-18"
           />
         </Link>
 
@@ -62,8 +62,8 @@ export function Navbar() {
         <div className="hidden items-center gap-3 md:flex">
           <Link href="/waitlist">
             <Button
-              size="sm"
-              className="bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500 animate-pulse-glow font-medium"
+              size="lg"
+              className="bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-orange-500 to-purple-500 animate-pulse-glow font-medium"
             >
               Join the Waitlist
             </Button>
@@ -100,7 +100,7 @@ export function Navbar() {
             ))}
             <hr className="my-2" />
             <Link href="/waitlist" onClick={() => setIsMobileMenuOpen(false)}>
-              <Button className="w-full bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500 animate-pulse-glow font-medium">
+              <Button className="w-full bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-orange-500 to-purple-500 animate-pulse-glow font-medium">
                 Join the Waitlist
               </Button>
             </Link>

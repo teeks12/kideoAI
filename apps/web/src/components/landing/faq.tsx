@@ -77,7 +77,7 @@ export function FAQ() {
               <AccordionItem
                 key={idx}
                 value={`item-${idx}`}
-                className="rounded-lg border-none bg-white px-6 shadow-sm mb-4"
+                className="mb-4 rounded-lg border-none bg-white px-4 shadow-sm sm:px-6"
               >
                 <AccordionTrigger className="text-left text-lg font-semibold text-gray-900 hover:text-primary-600 hover:no-underline">
                   {faq.question}
@@ -95,7 +95,7 @@ export function FAQ() {
             <Link href="/waitlist">
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500 animate-pulse-glow font-semibold"
+                className="bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-orange-500 to-purple-500 animate-pulse-glow font-semibold"
               >
                 Join the Waitlist
               </Button>
