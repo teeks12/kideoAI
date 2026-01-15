@@ -12,7 +12,7 @@ const benefits = [
     icon: BellOff,
     title: "Less Nagging, More Independence",
     description:
-      "Kids know exactly what's expected. No more constant reminders—they check their tasks and take ownership.",
+      "Kids know exactly what's expected. No more constant reminders - they check their tasks and take ownership.",
     color: "primary",
   },
   {

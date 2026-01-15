@@ -33,7 +33,7 @@ export function Hero() {
             {/* Headline */}
             <h1 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
               AI-Powered Chores,{" "}
-              <span className="bg-gradient-to-r from-primary-600 to-secondary-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
                 Made Fun
               </span>
             </h1>
@@ -42,7 +42,7 @@ export function Hero() {
             <p className="mx-auto mb-8 max-w-xl text-lg text-gray-600 lg:mx-0">
               Our AI suggests age-appropriate tasks and rewards tailored to your
               child&apos;s interests. Build responsibility through fun streaks,
-              points, and achievements—no more nagging!
+              points, and achievements - no more nagging!
             </p>
 
             {/* CTAs */}

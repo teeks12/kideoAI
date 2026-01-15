@@ -18,7 +18,7 @@ const features = [
     icon: Sparkles,
     title: "AI-Powered Suggestions",
     description:
-      "Our AI learns your child's age, interests, and habits to suggest perfect tasks and rewards. No more guessing what chores are appropriate—let AI do the thinking.",
+      "Our AI learns your child's age, interests, and habits to suggest perfect tasks and rewards. No more guessing what chores are appropriate - let AI do the thinking.",
     highlights: [
       "Age-appropriate task suggestions",
       "Personalized reward ideas",
@@ -48,7 +48,7 @@ const features = [
     icon: Flame,
     title: "Streaks & Multipliers",
     description:
-      "Kids build daily streaks and unlock point multipliers. Consistency is rewarded—watch motivation soar as streaks grow!",
+      "Kids build daily streaks and unlock point multipliers. Consistency is rewarded - watch motivation soar as streaks grow!",
     highlights: [
       "Daily streak tracking",
       "1.2x multiplier at 3 days",
@@ -63,7 +63,7 @@ const features = [
     icon: Gift,
     title: "Rewards Shop",
     description:
-      "Kids redeem points for rewards you define and approve. From screen time to special treats—you stay in full control.",
+      "Kids redeem points for rewards you define and approve. From screen time to special treats - you stay in full control.",
     highlights: [
       "Custom reward creation",
       "Parent approval required",
