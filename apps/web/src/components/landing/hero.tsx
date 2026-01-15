@@ -32,7 +32,7 @@ export function Hero() {
 
             {/* Headline */}
             <h1 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
-              AI-Powered Chores{" "}
+              AI-Powered Chores,{" "}
               <span className="bg-gradient-to-r from-primary-600 to-secondary-500 bg-clip-text text-transparent">
                 Made Fun
               </span>
@@ -70,15 +70,15 @@ export function Hero() {
             <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-gray-500 lg:justify-start">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4 text-success-500" />
-                <span>AI-powered suggestions</span>
+                <span>Age-appropriate chores</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4 text-success-500" />
-                <span>Free forever plan</span>
+                <span>Encourages responsibility (not entitlement)</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4 text-success-500" />
-                <span>Launching soon</span>
+                <span>Fewer reminders, less conflict</span>
               </div>
             </div>
           </div>
@@ -137,7 +137,7 @@ export function Hero() {
                     </div>
                     <div className="flex-1">
                       <p className="font-medium text-gray-900">Make bed</p>
-                      <p className="text-sm text-gray-500">Expected • Done!</p>
+                      <p className="text-sm text-gray-500">Part of being in the family • Done!</p>
                     </div>
                     <span className="text-lg">✓</span>
                   </div>
@@ -148,7 +148,7 @@ export function Hero() {
                     </div>
                     <div className="flex-1">
                       <p className="font-medium text-gray-900">Feed the dog</p>
-                      <p className="text-sm text-gray-500">Expected</p>
+                      <p className="text-sm text-gray-500">Part of being in the family</p>
                     </div>
                   </div>
 
@@ -158,7 +158,7 @@ export function Hero() {
                     </div>
                     <div className="flex-1">
                       <p className="font-medium text-gray-900">Clean room</p>
-                      <p className="text-sm text-gray-500">Paid • 25 pts</p>
+                      <p className="text-sm text-gray-500">Earn rewards • 25 pts</p>
                     </div>
                   </div>
                 </div>
