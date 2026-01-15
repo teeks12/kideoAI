@@ -33,7 +33,7 @@ export function Navbar() {
           : "bg-transparent"
       }`}
     >
-      <nav className="container mx-auto flex items-center justify-between px-4 py-4">
+      <nav className="container mx-auto flex items-center justify-between px-6 py-4">
         {/* Logo */}
         <Link href="/" className="flex items-center">
           <Image
@@ -86,7 +86,7 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="border-t bg-white px-4 py-4 shadow-lg md:hidden">
+        <div className="border-t bg-white px-6 py-4 shadow-lg md:hidden">
           <div className="flex flex-col gap-4">
             {navLinks.map((link) => (
               <a

@@ -18,7 +18,7 @@ export function Hero() {
       {/* Subtle background pattern */}
       <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:20px_20px] opacity-50" />
 
-      <div className="container relative mx-auto px-4 pb-16 sm:pb-24">
+      <div className="container relative mx-auto px-6 pb-16 sm:pb-24">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Left: Copy */}
           <div className="text-center lg:text-left">
