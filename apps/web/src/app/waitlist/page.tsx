@@ -59,7 +59,7 @@ export default function WaitlistPage() {
                     Join the Waitlist
                   </h1>
                   <p className="text-gray-600">
-                    Be the first to know when Kideo launches. We'll send you
+                    Be the first to know when Kideo launches. We&apos;ll send you
                     early access and exclusive updates!
                   </p>
                 </div>
@@ -122,10 +122,10 @@ export default function WaitlistPage() {
                     <CheckCircle className="h-16 w-16 text-success-500" />
                   </div>
                   <h2 className="mb-3 text-2xl font-bold text-gray-900">
-                    You're on the list!
+                    You&apos;re on the list!
                   </h2>
                   <p className="mb-6 text-gray-600">
-                    Thank you for joining the Kideo waitlist. We'll email you
+                    Thank you for joining the Kideo waitlist. We&apos;ll email you
                     as soon as we launch with exclusive early access.
                   </p>
                   <Link href="/">
