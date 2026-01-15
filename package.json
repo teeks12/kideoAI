@@ -13,7 +13,11 @@
     "db:push": "pnpm --filter @kideo/db push",
     "db:studio": "pnpm --filter @kideo/db studio",
     "db:seed": "pnpm --filter @kideo/db seed",
-    "format": "prettier --write \"**/*.{ts,tsx,md,json}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "deploy": "./deploy-prod.sh",
+    "deploy:full": "./deploy-prod.sh --build --migrate",
+    "logs": "ssh kideo-prod 'cd kideoAI && docker compose logs -f web'",
+    "ssh": "ssh kideo-prod"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
